@@ -39,34 +39,35 @@ Bằng chứng chính là:
     xử lý như booking thường.
 
 
-## 4. Build slice
+## 4. Build slice (Vũ Quang Bảo - 2A202600610)
 
 ```text
-Cho [user] đang [task/workflow],
-prototype sẽ dùng AI để [augment/automate hành động hẹp],
-tạo ra [output],
-và xử lý [failure mode] bằng [mitigation].
+Cho người dùng lần đầu nhập triệu chứng vào chatbot trước khi đặt lịch khám online —
+chưa biết nên khám khoa nào hoặc đang có dấu hiệu khẩn cấp chưa nhận ra,
+prototype sẽ dùng AI để phân tầng triệu chứng (triage) thành 3 mức: clear / low-confidence / red-flag,
+tạo ra: gợi ý 1 chuyên khoa cụ thể + offer đặt lịch (clear) / hỏi thêm 1 câu thu hẹp (low-confidence) / block đặt lịch + cảnh báo đến cơ sở cấp cứu (red-flag),
+và xử lý failure mode "AI gợi sai chuyên khoa" bằng cho phép user nhập lại triệu chứng hoặc override thủ công vào danh sách chuyên khoa.
 ```
 
-## 5. Auto/Aug decision
+## 5. Auto/Aug decision (Vũ Quang Bảo - 2A202600610)
 
 Chọn một:
 
 - [ ] **Augmentation:** AI gợi ý/draft/phân loại, user quyết cuối.
-- [ ] **Conditional automation:** AI tự làm trong case hẹp; case mơ hồ/rủi ro chuyển người.
+- [x] **Conditional automation:** AI tự làm trong case hẹp; case mơ hồ/rủi ro chuyển người.
 - [ ] **Automation:** AI tự quyết và tự hành động.
 
-**Lý do chọn:**  
-**Human role:** reviewer / decider / trainer / rescuer / none  
+**Lý do chọn:** Domain y tế yêu cầu human-in-the-loop ở case rủi ro — automation hoàn toàn không phù hợp khi output ảnh hưởng tính mạng. AI tự quyết với case "clear" (triệu chứng đủ rõ, low risk), nhưng case mơ hồ phải hỏi thêm và case red-flag phải block AI, chuyển hoàn toàn sang cấp cứu. Pattern này đã được validated bởi Ada Health và Symptomate.  
+**Human role:** decider (low-confidence — user xác nhận sau khi AI hỏi thêm), rescuer (red-flag — bác sĩ/cấp cứu thay thế hoàn toàn, AI không có quyền quyết định)  
 
-## 6. Four paths
+## 6. Four paths (Vũ Quang Bảo - 2A202600610)
 
 | Path | Prototype phải thể hiện gì? |
 |---|---|
-| Happy |  |
-| Low-confidence |  |
-| Failure |  |
-| Correction |  |
+| Happy | User nhập "đau mắt đỏ, chảy nước mắt 2 ngày" → AI classify = **clear** → gợi ý Chuyên khoa Mắt → hiện slot khả dụng → user đặt lịch thành công trong 1 flow không bị gián đoạn |
+| Low-confidence | User nhập "hay mệt mỏi, đôi khi đau đầu" → AI classify = **low-confidence** → hỏi thêm 1 câu ("Bạn có bị chóng mặt hoặc buồn nôn kèm không?") → user trả lời → AI re-classify → gợi ý 1 chuyên khoa cụ thể + offer đặt lịch |
+| Failure | AI gợi ý Nội tổng quát nhưng user biết mình cần Thần kinh → prototype hiển thị nút "Nhập lại triệu chứng" và "Chọn chuyên khoa khác" → user có thể override thủ công, flow không bị kẹt |
+| Correction | User nhập "đau bụng" → AI gợi ý Tiêu hóa → user bổ sung "kèm sốt 38.5°C" → AI re-triage với đủ thông tin → gợi ý chuyên khoa có thể thay đổi (Nội tổng quát hoặc cảnh báo red-flag nếu sốt cao bất thường) |
 
 ## 7. Failure mode nguy hiểm nhất
 
