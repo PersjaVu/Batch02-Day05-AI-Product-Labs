@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workshop – Mổ App AI Thật · MoMo Moni Case Study</title>
+  <meta name="description" content="Workshop cá nhân: Phân tích UX AI thật – Case Study Trợ thủ AI Moni MoMo. Finding note, 4 paths, sketch as-is/to-be, product decision.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    @page { size: A4; margin: 14mm 13mm; }
+
+    :root {
+      --m-900: #6b0538; --m-800: #8c0a4c; --m-700: #ae1574;
+      --m-600: #c41b85; --m-500: #d9269a; --m-300: #f0a0ce;
+      --m-200: #f7cfe6; --m-100: #fce8f3; --m-50: #fff5fb;
+      --n-900: #111827; --n-800: #1f2937; --n-700: #374151;
+      --n-500: #6b7280; --n-400: #9ca3af; --n-300: #d1d5db;
+      --n-200: #e5e7eb; --n-100: #f3f4f6; --n-50: #f9fafb;
+      --ok-dark: #14532d; --ok-mid: #16a34a; --ok-light: #dcfce7; --ok-bdr: #86efac;
+      --warn-dark: #92400e; --warn-mid: #d97706; --warn-light: #fef3c7; --warn-bdr: #fcd34d;
+      --err-dark: #7f1d1d; --err-mid: #dc2626; --err-light: #fee2e2; --err-bdr: #fca5a5;
+      --gap-dark: #7c2d12; --gap-mid: #ea580c; --gap-light: #fff7ed; --gap-bdr: #fdba74;
+      --blue-dark: #1e3a8a; --blue-mid: #3b82f6; --blue-light: #eff6ff; --blue-bdr: #93c5fd;
+      --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px;
+      --sh-xs: 0 1px 3px rgba(0,0,0,0.07);
+      --sh-sm: 0 2px 8px rgba(0,0,0,0.08);
+      --sh-md: 0 4px 16px rgba(0,0,0,0.1);
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      background: #fff; color: var(--n-800);
+      font-size: 10.5pt; line-height: 1.6;
+    }
+    strong { font-weight: 700; }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--m-800) 0%, var(--m-700) 55%, var(--m-600) 100%);
+      border-radius: var(--r-xl); padding: 28px 28px 22px;
+      margin-bottom: 24px; color: #fff;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse at 110% -20%, rgba(255,255,255,0.12) 0%, transparent 55%);
+      pointer-events: none;
+    }
+    .hero-top { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 16px; }
+    .hero-logo {
+      width: 54px; height: 54px; border-radius: var(--r-md);
+      background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.3);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; font-size: 22pt; font-weight: 900; color: #fff;
+    }
+    .hero-text { flex: 1; }
+    .hero-eyebrow { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+    .pill {
+      display: inline-block; font-size: 7.5pt; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.1px; padding: 3px 10px; border-radius: 20px;
+    }
+    .pill-white { background: rgba(255,255,255,0.2); color: rgba(255,255,255,0.9); border: 1px solid rgba(255,255,255,0.3); }
+    .hero h1 { font-size: 17pt; font-weight: 800; color: #fff; line-height: 1.25; margin-bottom: 6px; }
+    .hero-subtitle { font-size: 9pt; color: rgba(255,255,255,0.75); line-height: 1.5; }
+    .hero-subtitle strong { color: rgba(255,255,255,0.95); font-weight: 600; }
+    .hero-divider { border: none; border-top: 1px solid rgba(255,255,255,0.2); margin: 14px 0 12px; }
+    .hero-meta { display: flex; gap: 20px; flex-wrap: wrap; }
+    .hero-meta-item { font-size: 8.5pt; color: rgba(255,255,255,0.7); }
+    .hero-meta-item strong { color: #fff; font-weight: 600; }
+
+    /* ── OVERVIEW BOX ── */
+    .overview-box {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+      background: var(--n-50); border: 1.5px solid var(--n-200);
+      border-radius: var(--r-lg); padding: 16px 20px; margin-bottom: 24px;
+    }
+    .ov-item { display: flex; flex-direction: column; gap: 4px; }
+    .ov-label { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--m-700); }
+    .ov-val { font-size: 9.5pt; color: var(--n-800); font-weight: 500; }
+    .goal-box {
+      background: linear-gradient(135deg, var(--m-50) 0%, #fff 100%);
+      border: 1.5px solid var(--m-200); border-left: 4px solid var(--m-700);
+      border-radius: var(--r-md); padding: 14px 18px; margin-bottom: 24px;
+      font-size: 9.5pt; color: var(--n-700); line-height: 1.65;
+    }
+    .goal-box strong { color: var(--m-700); }
+
+    /* ── SECTION HEADER ── */
+    .sec { display: flex; align-items: center; gap: 10px; margin: 26px 0 14px; }
+    .sec-badge {
+      display: flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--m-700); color: #fff; font-size: 8.5pt; font-weight: 800; flex-shrink: 0;
+    }
+    .sec h2 { font-size: 11.5pt; font-weight: 700; color: var(--n-900); border: none; padding: 0; margin: 0; }
+    .sec-line { flex: 1; height: 1px; background: var(--n-200); }
+
+    /* ── SUB LABEL ── */
+    .sub-label {
+      font-size: 8pt; font-weight: 700; text-transform: uppercase; letter-spacing: 1.1px;
+      color: var(--m-700); margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+    }
+    .sub-label::before {
+      content: ''; display: inline-block; width: 3px; height: 14px;
+      background: var(--m-700); border-radius: 2px;
+    }
+
+    /* ── PRODUCT TABLE ── */
+    .product-table { width: 100%; border-collapse: collapse; margin-bottom: 18px; border-radius: var(--r-md); overflow: hidden; box-shadow: var(--sh-sm); }
+    .product-table th {
+      background: var(--m-700); color: #fff; font-size: 8.5pt; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.8px; padding: 10px 14px; text-align: left;
+    }
+    .product-table td { padding: 11px 14px; font-size: 9pt; border-bottom: 1px solid var(--n-200); vertical-align: middle; }
+    .product-table tr:last-child td { border-bottom: none; }
+    .product-table tr.selected td { background: var(--m-50); }
+    .product-table tr:not(.selected) td { background: #fff; }
+    .product-table tr:not(.selected):hover td { background: var(--n-50); }
+    .selected-badge {
+      display: inline-block; font-size: 7pt; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.8px; padding: 2px 8px; border-radius: 20px;
+      background: var(--m-700); color: #fff; margin-left: 8px;
+    }
+    .feat-tag {
+      display: inline-block; font-size: 7.5pt; color: var(--n-600);
+      background: var(--n-100); border: 1px solid var(--n-200);
+      border-radius: 4px; padding: 1px 6px; margin: 2px 2px 0 0;
+    }
+
+    /* ── PROMISE/REALITY 2-COL ── */
+    .er-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .er-card { border-radius: var(--r-md); padding: 14px 16px; border: 1.5px solid; }
+    .er-card.expect { background: var(--blue-light); border-color: var(--blue-bdr); border-top: 3px solid var(--blue-mid); }
+    .er-card.reality { background: var(--err-light); border-color: var(--err-bdr); border-top: 3px solid var(--err-mid); }
+    .er-head { display: flex; align-items: center; gap: 7px; font-size: 8pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.9px; margin-bottom: 10px; }
+    .er-head.expect { color: var(--blue-dark); }
+    .er-head.reality { color: var(--err-dark); }
+    .er-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .er-dot.expect { background: var(--blue-mid); }
+    .er-dot.reality { background: var(--err-mid); }
+    .er-list { list-style: none; }
+    .er-list li { font-size: 9pt; color: var(--n-700); padding: 5px 0; border-bottom: 1px solid rgba(0,0,0,0.06); line-height: 1.45; display: flex; gap: 8px; align-items: flex-start; }
+    .er-list li:last-child { border-bottom: none; }
+    .er-list li::before { content: ''; display: block; width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+    .er-card.expect .er-list li::before { background: var(--blue-mid); }
+    .er-card.reality .er-list li::before { background: var(--err-mid); }
+
+    /* ── EVIDENCE NEEDED BOX ── */
+    .evidence-need {
+      background: var(--warn-light); border: 1.5px solid var(--warn-bdr); border-left: 4px solid var(--warn-mid);
+      border-radius: var(--r-md); padding: 12px 16px; margin-bottom: 18px;
+    }
+    .evidence-need-title { font-size: 8pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.9px; color: var(--warn-dark); margin-bottom: 8px; }
+    .evidence-need ul { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+    .evidence-need ul li {
+      font-size: 8.5pt; color: var(--warn-dark); background: rgba(255,255,255,0.6);
+      border: 1px solid var(--warn-bdr); border-radius: 20px; padding: 3px 10px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .evidence-need ul li::before { content: '✓'; font-weight: 800; }
+
+    /* ── 4 PATHS GRID ── */
+    .paths-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+    .path-card { border-radius: var(--r-md); padding: 14px 16px; border: 1.5px solid; }
+    .path-card.happy   { background: var(--ok-light);   border-color: var(--ok-bdr);   border-top: 3px solid var(--ok-mid); }
+    .path-card.lowconf { background: var(--warn-light);  border-color: var(--warn-bdr); border-top: 3px solid var(--warn-mid); }
+    .path-card.failure { background: var(--err-light);   border-color: var(--err-bdr);  border-top: 3px solid var(--err-mid); }
+    .path-card.correct { background: var(--blue-light);  border-color: var(--blue-bdr); border-top: 3px solid var(--blue-mid); }
+    .path-head {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 8pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.9px; margin-bottom: 8px;
+    }
+    .path-card.happy   .path-head { color: var(--ok-dark); }
+    .path-card.lowconf .path-head { color: var(--warn-dark); }
+    .path-card.failure .path-head { color: var(--err-dark); }
+    .path-card.correct .path-head { color: var(--blue-dark); }
+    .path-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    .path-card.happy   .path-dot { background: var(--ok-mid); }
+    .path-card.lowconf .path-dot { background: var(--warn-mid); }
+    .path-card.failure .path-dot { background: var(--err-mid); }
+    .path-card.correct .path-dot { background: var(--blue-mid); }
+    .path-question { font-size: 8pt; color: var(--n-500); font-style: italic; margin-bottom: 8px; }
+    .path-body { font-size: 9pt; color: var(--n-700); line-height: 1.55; }
+    .path-body strong { color: var(--n-900); }
+    .path-missing {
+      font-size: 8pt; font-style: italic; color: var(--n-400);
+      border: 1px dashed var(--n-300); border-radius: var(--r-sm);
+      padding: 6px 10px; margin-top: 8px;
+    }
+
+    /* ── FINDING BLOCK ── */
+    .finding-block {
+      background: #fff; border: 1.5px solid var(--n-200); border-radius: var(--r-lg);
+      overflow: hidden; margin-bottom: 14px; box-shadow: var(--sh-xs);
+    }
+    .finding-header {
+      background: linear-gradient(90deg, var(--m-800), var(--m-700));
+      padding: 10px 16px; display: flex; align-items: center; gap: 10px;
+    }
+    .finding-num { font-size: 8pt; font-weight: 800; color: var(--m-300); text-transform: uppercase; letter-spacing: 1px; }
+    .finding-title { font-size: 9.5pt; font-weight: 700; color: #fff; }
+    .finding-rows { display: grid; grid-template-columns: 100px 1fr; }
+    .finding-row { display: contents; }
+    .finding-key {
+      padding: 9px 14px; font-size: 7.5pt; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.8px; color: var(--m-700); background: var(--m-50);
+      border-bottom: 1px solid var(--m-100); border-right: 1px solid var(--m-200);
+      display: flex; align-items: flex-start; padding-top: 12px;
+    }
+    .finding-val {
+      padding: 9px 14px; font-size: 9pt; color: var(--n-700); line-height: 1.55;
+      border-bottom: 1px solid var(--n-100); background: #fff;
+    }
+    .finding-val:last-child, .finding-key:last-child { border-bottom: none; }
+    .finding-val strong { color: var(--n-900); }
+    .layer-tag {
+      display: inline-block; font-size: 7.5pt; font-weight: 700; padding: 2px 9px;
+      border-radius: 20px; margin: 2px 3px 0 0;
+    }
+    .lt-intent  { background: var(--err-light);  color: var(--err-dark);  border: 1px solid var(--err-bdr); }
+    .lt-ux      { background: var(--gap-light);  color: var(--gap-dark);  border: 1px solid var(--gap-bdr); }
+    .lt-data    { background: var(--warn-light); color: var(--warn-dark); border: 1px solid var(--warn-bdr); }
+    .lt-promise { background: var(--blue-light); color: var(--blue-dark); border: 1px solid var(--blue-bdr); }
+    .fix-tag {
+      display: inline-block; font-size: 7.5pt; font-weight: 600; padding: 2px 9px;
+      border-radius: 20px; margin: 2px 3px 0 0;
+      background: var(--ok-light); color: var(--ok-dark); border: 1px solid var(--ok-bdr);
+    }
+
+    /* ── EXAMPLE BOX ── */
+    .example-box {
+      background: var(--n-50); border: 1.5px solid var(--n-200); border-left: 4px solid var(--n-400);
+      border-radius: var(--r-md); padding: 12px 16px; margin-bottom: 18px;
+    }
+    .example-label { font-size: 7.5pt; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--n-400); margin-bottom: 8px; }
+    .example-body { font-size: 8.5pt; color: var(--n-600); line-height: 1.6; font-style: italic; }
+
+    /* ── SKETCH ── */
+    .sketch-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
+    .sketch-head {
+      font-size: 8.5pt; font-weight: 700; text-align: center; padding: 7px 10px;
+      border-radius: var(--r-sm); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.6px;
+    }
+    .sketch-head.asis { background: var(--err-light); color: var(--err-dark); border: 1px solid var(--err-bdr); }
+    .sketch-head.tobe { background: var(--ok-light);  color: var(--ok-dark);  border: 1px solid var(--ok-bdr); }
+    .sn {
+      background: #fff; border: 1.5px solid var(--n-200); border-radius: var(--r-sm);
+      padding: 9px 12px; margin-bottom: 7px; font-size: 9pt; color: var(--n-700); line-height: 1.5;
+    }
+    .sn.alert   { background: var(--err-light); border-color: var(--err-mid);  color: var(--err-dark); }
+    .sn.fix     { background: var(--ok-light);  border-color: var(--ok-mid);   color: var(--ok-dark); }
+    .sn.res-bad  { border-color: var(--err-mid); color: var(--err-dark); }
+    .sn.res-good { border-color: var(--ok-mid);  color: var(--ok-dark); }
+    .sn-tag { font-size: 7.5pt; font-weight: 800; text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 4px; }
+    .arrow-simple { text-align: center; color: var(--n-300); font-size: 14pt; margin: 2px 0; line-height: 1; }
+
+    /* ── CHECKLIST ── */
+    .checklist { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 18px; }
+    .checklist li {
+      display: flex; align-items: flex-start; gap: 10px;
+      background: #fff; border: 1.5px solid var(--n-200); border-radius: var(--r-md);
+      padding: 10px 14px; font-size: 9pt; color: var(--n-700); line-height: 1.5;
+    }
+    .checklist li.done { border-color: var(--ok-bdr); background: var(--ok-light); color: var(--ok-dark); }
+    .checklist li.done strong { color: var(--ok-dark); }
+    .check-box {
+      width: 18px; height: 18px; border-radius: 4px; flex-shrink: 0; margin-top: 1px;
+      display: flex; align-items: center; justify-content: center; font-size: 10pt; font-weight: 800;
+    }
+    .check-box.done { background: var(--ok-mid); color: #fff; }
+    .check-box.todo { background: #fff; border: 2px solid var(--n-300); }
+
+    /* ── EVIDENCE SECTION ── */
+    .evidence-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 16px; }
+    .evidence-card {
+      background: #fff; border: 1.5px solid var(--n-200); border-radius: var(--r-lg);
+      overflow: hidden; box-shadow: var(--sh-sm); display: flex; flex-direction: column;
+    }
+    .evidence-img-wrap {
+      position: relative; width: 100%; background: var(--n-100);
+      overflow: hidden; border-bottom: 1.5px solid var(--n-200);
+    }
+    .evidence-img-wrap img { width: 100%; height: auto; display: block; }
+    .evidence-badge {
+      position: absolute; top: 10px; left: 10px;
+      font-size: 7pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.9px;
+      padding: 3px 9px; border-radius: 20px; backdrop-filter: blur(6px);
+    }
+    .evidence-badge.normal { background: rgba(196,27,133,0.85); color: #fff; }
+    .evidence-badge.alert  { background: rgba(220,38,38,0.88);  color: #fff; }
+    .evidence-body { padding: 13px 14px; flex: 1; }
+    .evidence-title { font-size: 9pt; font-weight: 700; color: var(--n-900); margin-bottom: 5px; line-height: 1.4; }
+    .evidence-desc  { font-size: 8pt; color: var(--n-500); line-height: 1.5; }
+    .evidence-desc strong { color: var(--err-dark); }
+    .evidence-note {
+      margin-top: 10px; padding: 8px 12px;
+      background: var(--err-light); border: 1px solid var(--err-bdr); border-left: 3px solid var(--err-mid);
+      border-radius: var(--r-sm); font-size: 8pt; color: var(--err-dark); line-height: 1.5;
+    }
+    .evidence-note.ok-note {
+      background: var(--ok-light); border-color: var(--ok-bdr); border-left-color: var(--ok-mid); color: var(--ok-dark);
+    }
+
+    /* ── SPEC CHANGE ── */
+    .spec-box {
+      background: linear-gradient(135deg, var(--m-800) 0%, var(--m-700) 100%);
+      border-radius: var(--r-lg); padding: 20px 24px; margin: 20px 0 24px;
+      position: relative; overflow: hidden;
+    }
+    .spec-box::after {
+      content: ''; position: absolute; bottom: -40px; right: -30px;
+      width: 140px; height: 140px; border-radius: 50%;
+      background: rgba(255,255,255,0.05); pointer-events: none;
+    }
+    .spec-tag { font-size: 8pt; font-weight: 700; text-transform: uppercase; letter-spacing: 1.2px; color: var(--m-300); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .spec-tag::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--m-300); }
+    .spec-body { font-size: 10pt; font-weight: 400; color: rgba(255,255,255,0.9); line-height: 1.75; font-style: italic; position: relative; z-index: 1; }
+    .spec-body strong { color: #fff; font-style: normal; }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 20px; border-top: 1.5px solid var(--n-200);
+      padding-top: 10px; display: flex; justify-content: space-between; align-items: center;
+      font-size: 8pt; color: var(--n-400);
+    }
+    .footer-brand { display: flex; align-items: center; gap: 8px; }
+    .footer-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--m-700); }
+
+    @media print {
+      body { font-size: 10pt; }
+      .hero, .spec-box { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .finding-header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .sec-badge, .product-table th { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ HERO ══════════════════════════════════════════════════ -->
+  <div class="hero">
+    <div class="hero-top">
+      <div class="hero-logo">M</div>
+      <div class="hero-text">
+        <div class="hero-eyebrow">
+          <span class="pill pill-white">Workshop Cá Nhân</span>
+          <span class="pill pill-white">UX Analysis</span>
+          <span class="pill pill-white">Block 3 · Day 05</span>
+        </div>
+        <h1>Workshop — Mổ App AI Thật</h1>
+        <div class="hero-subtitle">
+          <strong>Case Study:</strong> Trợ thủ AI Moni – MoMo · Phát hiện lỗ hổng thuật toán quét sót dữ liệu đối soát ~97.218đ
+        </div>
+      </div>
+    </div>
+    <hr class="hero-divider">
+    <div class="hero-meta">
+      <div class="hero-meta-item"><strong>Thời gian:</strong> 35–45 phút</div>
+      <div class="hero-meta-item"><strong>Hình thức:</strong> Cá nhân → Chia sẻ nhóm</div>
+      <div class="hero-meta-item"><strong>Output:</strong> Finding note + Sketch as-is / to-be</div>
+      <div class="hero-meta-item"><strong>Slide:</strong> 32 / 53</div>
+    </div>
+  </div>
+
+  <!-- ── MỤC TIÊU ── -->
+  <div class="goal-box">
+    <strong>Mục tiêu không phải chấm "UI đẹp hay xấu".</strong> Mục tiêu là dùng sản phẩm thật như một bài needfinding:
+    tìm chỗ product gãy trong workflow thật, rồi viết finding đó thành <strong>quyết định product</strong>.
+  </div>
+
+
+  <!-- ══ SECTION 1 · CHỌN SẢN PHẨM ════════════════════════════ -->
+  <div class="sec">
+    <span class="sec-badge">1</span>
+    <h2>Chọn Một Sản Phẩm Để Dùng Thử</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <table class="product-table">
+    <thead>
+      <tr>
+        <th>Sản phẩm</th>
+        <th>AI Feature</th>
+        <th>Cách truy cập</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="selected">
+        <td><strong>MoMo — Moni</strong><span class="selected-badge">Đã chọn</span></td>
+        <td>
+          <span class="feat-tag">Trợ thủ tài chính</span>
+          <span class="feat-tag">Phân tích chi tiêu</span>
+          <span class="feat-tag">Chatbot</span>
+        </td>
+        <td>App MoMo</td>
+      </tr>
+      <tr>
+        <td><strong>Vietnam Airlines — NEO</strong></td>
+        <td>
+          <span class="feat-tag">Chatbot hỗ trợ vé</span>
+          <span class="feat-tag">Hành lý</span>
+          <span class="feat-tag">Khiếu nại</span>
+        </td>
+        <td>Website / Zalo VNA</td>
+      </tr>
+      <tr>
+        <td><strong>V-App — V-AI</strong></td>
+        <td>
+          <span class="feat-tag">Trợ lý voice/text</span>
+          <span class="feat-tag">Gợi ý theo ngữ cảnh</span>
+        </td>
+        <td>App V-App</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+  <!-- ══ SECTION 2 · DÙNG THỬ – PROMISE VS REALITY ════════════ -->
+  <div class="sec">
+    <span class="sec-badge">2</span>
+    <h2>Dùng Thử: Promise vs Reality</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="sub-label">Ghi Nhanh</div>
+  <div class="er-wrap">
+    <div class="er-card expect">
+      <div class="er-head expect"><span class="er-dot expect"></span>Product Hứa / Kỳ Vọng</div>
+      <ul class="er-list">
+        <li>AI tổng hợp chính xác toàn bộ giao dịch trong tháng, không bỏ sót.</li>
+        <li>Tổng số tiền chi ra khớp với biến động số dư thực tế trong ví.</li>
+        <li>Khi có sai lệch, AI chủ động cảnh báo và đề xuất hành động tiếp theo.</li>
+        <li>Giao diện cung cấp công cụ tra cứu/xác minh nếu người dùng nghi ngờ kết quả.</li>
+      </ul>
+    </div>
+    <div class="er-card reality">
+      <div class="er-head reality"><span class="er-dot reality"></span>Thực Tế Khi Dùng Thật</div>
+      <ul class="er-list">
+        <li>Danh sách giao dịch trả về bị thiếu — chênh lệch ~97.218đ so với số dư thực.</li>
+        <li>AI không phát hiện sai lệch, im lặng xuất báo cáo thiếu dữ liệu.</li>
+        <li>Không có cơ chế cảnh báo hay hỏi lại người dùng khi dữ liệu bị miss.</li>
+        <li>UI không có nút hoặc luồng nào cho phép người dùng kích hoạt quét lại.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sub-label">Evidence Cần Có</div>
+  <div class="evidence-need">
+    <div class="evidence-need-title">Loại bằng chứng đã thu thập</div>
+    <ul>
+      <li>Screenshot từ app</li>
+      <li>Prompt / Input đã thử</li>
+      <li>Hành vi quan sát được</li>
+      <li>Số liệu cụ thể (97.218đ)</li>
+    </ul>
+  </div>
+
+
+  <!-- ══ SECTION 3 · 4 PATHS ════════════════════════════════════ -->
+  <div class="sec">
+    <span class="sec-badge">3</span>
+    <h2>Vẽ 4 Paths</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="paths-grid">
+
+    <div class="path-card happy">
+      <div class="path-head"><span class="path-dot"></span>Happy Path</div>
+      <div class="path-question">Khi AI đúng và tự tin, user thấy gì?</div>
+      <div class="path-body">
+        AI Moni quét và phân loại chính xác <strong>5 giao dịch lớn nhìn thấy được</strong>
+        (300k, 1.279k, 1.161k, 619k, 200k). Bảng đối soát hiển thị đúng danh mục:
+        Nhà cửa, Hóa đơn (×2), Giải trí, Chưa phân loại.
+        User thấy tổng <strong>3.560.148đ</strong> và tin vào kết quả — không biết còn thiếu.
+      </div>
+    </div>
+
+    <div class="path-card lowconf">
+      <div class="path-head"><span class="path-dot"></span>Low-Confidence Path</div>
+      <div class="path-question">Khi AI không chắc, hệ thống có hỏi lại, show options hoặc chuyển người không?</div>
+      <div class="path-body">
+        Moni hỏi <em>"Bạn muốn xem tiếp các giao dịch còn lại không?"</em> — cho thấy
+        hệ thống nhận ra còn dữ liệu chưa hiển thị. <strong>Tuy nhiên</strong>, không có
+        cảnh báo về sai lệch số dư, không đề xuất quét sâu, không chuyển sang human support.
+      </div>
+      <div class="path-missing">Path tồn tại nhưng không hoàn chỉnh — thiếu trigger phát hiện miss data.</div>
+    </div>
+
+    <div class="path-card failure">
+      <div class="path-head"><span class="path-dot"></span>Failure Path</div>
+      <div class="path-question">Khi AI sai, user biết bằng cách nào và sửa thế nào?</div>
+      <div class="path-body">
+        Thuật toán quét <strong>bỏ sót ngầm ~97.218đ</strong> (giao dịch CTCP FUNTEK VIỆT NAM
+        ngày 04/05/2026). AI im lặng xuất báo cáo thiếu thông tin. User chỉ phát hiện
+        khi tự đối chiếu với lịch sử giao dịch gốc — <strong>không có cơ chế recovery</strong>.
+      </div>
+    </div>
+
+    <div class="path-card correct">
+      <div class="path-head"><span class="path-dot"></span>Correction Path</div>
+      <div class="path-question">Khi user sửa, correction có được lưu/log/học lại không hay biến mất?</div>
+      <div class="path-body">
+        <strong>Path này chưa tồn tại trong product.</strong> Không có nút "Quét lại",
+        không có input để user báo cáo sai lệch, không có log để AI học từ lỗi.
+        User không có cách nào trigger correction trong giao diện hiện tại.
+      </div>
+      <div class="path-missing">Path hoàn toàn thiếu — đây là điểm gãy chính cần vá.</div>
+    </div>
+
+  </div>
+
+
+  <!-- ══ SECTION 4 · FINDING → QUYẾT ĐỊNH ══════════════════════ -->
+  <div class="sec">
+    <span class="sec-badge">4</span>
+    <h2>Viết Finding Thành Quyết Định</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="example-box">
+    <div class="example-label">Ví dụ từ form</div>
+    <div class="example-body">
+      Khi user hỏi "chi tiêu linh tinh là gì?", AI hiểu như keyword thay vì nhận ra intent mơ hồ,
+      hậu quả là user không biết sửa phân loại chi tiêu ở đâu.
+      Lỗi thuộc Intent + UX Recovery. Nên sửa bằng low-confidence path: hỏi lại tiêu chí hoặc đưa 2–3 nhóm giao dịch để chọn.
+    </div>
+  </div>
+
+  <div class="finding-block">
+    <div class="finding-header">
+      <span class="finding-num">Finding #1</span>
+      <span class="finding-title">Miss Data ngầm trong luồng đối soát tự động</span>
+    </div>
+    <div class="finding-rows">
+      <div class="finding-key">Trigger</div>
+      <div class="finding-val">
+        Khi user yêu cầu Trợ thủ AI Moni <strong>đối soát chi tiêu tháng 05/2026</strong>,
+        hệ thống kích hoạt luồng đồng bộ giữa số dư ví thực tế và dữ liệu giao dịch.
+      </div>
+
+      <div class="finding-key">Failure</div>
+      <div class="finding-val">
+        Thuật toán quét <strong>bỏ sót ngầm ~97.218đ</strong> (giao dịch "Thanh toán Mua mã thẻ nạp
+        Game – CTCP FUNTEK VIỆT NAM", 21:32, 04/05/2026) do giới hạn phân trang hiển thị hoặc phí
+        ẩn không được đưa vào scope quét. <strong>AI không phát hiện sai lệch và im lặng xuất báo cáo.</strong>
+      </div>
+
+      <div class="finding-key">Impact</div>
+      <div class="finding-val">
+        User nhận báo cáo thiếu dữ liệu mà không biết. Khi tự phát hiện chênh lệch,
+        UI không cung cấp bất kỳ công cụ nào để tra cứu hoặc kích hoạt quét lại —
+        dẫn đến <strong>bế tắc trải nghiệm và mất tin tưởng vào tính năng AI</strong>.
+      </div>
+
+      <div class="finding-key">Layer lỗi</div>
+      <div class="finding-val">
+        <span class="layer-tag lt-data">Data / Tool</span>
+        <span class="layer-tag lt-intent">Intent Detection</span>
+        <span class="layer-tag lt-ux">UX Recovery</span>
+      </div>
+
+      <div class="finding-key">Nên sửa</div>
+      <div class="finding-val">
+        <span class="fix-tag">Audit Layer</span>
+        <span class="fix-tag">Low-confidence Path</span>
+        <span class="fix-tag">Fallback UI</span>
+        Cài đặt lớp kiểm toán số học ở cuối luồng: khi tổng số dư lệch so với danh sách quét,
+        AI hiển thị cảnh báo thông minh kèm nút <strong>"Quét Sâu Lại Nguồn" (Deep-scan Source)</strong>.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══ SECTION 5 · SKETCH AS-IS / TO-BE ═════════════════════ -->
+  <div class="sec">
+    <span class="sec-badge">5</span>
+    <h2>Sketch Luồng Trải Nghiệm (As-is vs To-be)</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="sketch-wrap">
+    <!-- AS-IS -->
+    <div>
+      <div class="sketch-head asis">Luồng Hiện Tại (As-Is) — Điểm Gãy</div>
+      <div class="sn">User gọi Trợ thủ AI Moni đối soát chi tiêu tháng 05/2026.</div>
+      <div class="arrow-simple">↓</div>
+      <div class="sn">Hệ thống kích hoạt luồng đối soát giữa tổng số dư ví thực tế và danh sách giao dịch.</div>
+      <div class="arrow-simple">↓</div>
+      <div class="sn alert">
+        <div class="sn-tag">Path Yếu – Failure</div>
+        Thuật toán quét bị gãy/miss mất khoảng ~97.218đ. AI không phát hiện, không cảnh báo.
+      </div>
+      <div class="arrow-simple">↓</div>
+      <div class="sn res-bad">
+        <div class="sn-tag">Drop-off</div>
+        AI hiển thị báo cáo thiếu thông tin. User bế tắc, không có tool để recover.
+      </div>
+    </div>
+
+    <!-- TO-BE -->
+    <div>
+      <div class="sketch-head tobe">Luồng Cải Tiến (To-Be) — Path Đã Vá</div>
+      <div class="sn">User gọi Trợ thủ AI Moni đối soát chi tiêu tháng 05/2026.</div>
+      <div class="arrow-simple">↓</div>
+      <div class="sn">Hệ thống chạy luồng đối soát chéo tự động.</div>
+      <div class="arrow-simple">↓</div>
+      <div class="sn fix">
+        <div class="sn-tag">Audit Layer — Khắc Phục</div>
+        Phát hiện lệch số dư → AI hiển thị cảnh báo thông minh + nút <strong>"Quét Sâu Lại Nguồn"</strong>.
+        Low-confidence path được kích hoạt, hỏi lại user thay vì im lặng.
+      </div>
+      <div class="arrow-simple">↓</div>
+      <div class="sn res-good">
+        <div class="sn-tag">Recovery</div>
+        Deep-scan vá dữ liệu bị miss, củng cố minh bạch luồng và giữ chân người dùng.
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ══ SECTION 6 · TỰ KIỂM TRƯỚC KHI NỘP ════════════════════ -->
+  <div class="sec">
+    <span class="sec-badge">6</span>
+    <h2>Tự Kiểm Trước Khi Nộp</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <ul class="checklist" id="self-check">
+    <li class="done">
+      <span class="check-box done">✓</span>
+      <span>Có <strong>ít nhất 1 screenshot hoặc observation cụ thể</strong> — 3 ảnh chụp màn hình MoMo (xem phần Evidence bên dưới).</span>
+    </li>
+    <li class="done">
+      <span class="check-box done">✓</span>
+      <span>Có <strong>đủ 4 paths</strong>: Happy Path ✓ · Low-confidence ✓ (thiếu trigger) · Failure ✓ · Correction Path chưa có trong product — đã ghi nhận rõ ràng.</span>
+    </li>
+    <li class="done">
+      <span class="check-box done">✓</span>
+      <span>Finding được <strong>viết thành product decision</strong>, không chỉ là nhận xét — xem Finding #1 với format Trigger / Failure / Impact / Layer / Fix.</span>
+    </li>
+    <li class="done">
+      <span class="check-box done">✓</span>
+      <span>Sketch có <strong>as-is và to-be</strong>, đánh dấu điểm gãy và path đã sửa.</span>
+    </li>
+    <li class="done">
+      <span class="check-box done">✓</span>
+      <span>Có câu nói rõ finding này sẽ <strong>đổi gì trong SPEC</strong> — xem Product Decision bên dưới.</span>
+    </li>
+  </ul>
+
+
+  <!-- ══ PRODUCT DECISION ═══════════════════════════════════════ -->
+  <div class="spec-box">
+    <div class="spec-tag">Product Decision – Thay Đổi Trong SPEC</div>
+    <div class="spec-body">
+      "Thừa nhận hệ thống đã có tính năng đối soát nhưng thuật toán vẫn dính lỗ hổng làm 'miss' dữ liệu ngầm (~97k),
+      chúng tôi quyết định <strong>cài đặt Audit Layer</strong> ở cuối luồng xử lý: khi phát hiện tổng số dư lệch so với danh sách quét,
+      AI lập tức hiển thị cảnh báo thông minh kèm nút hành động
+      <strong>'Quét Sâu Lại Nguồn' (Deep-scan Source)</strong> — vá điểm gãy trải nghiệm ngay tại chỗ
+      thay vì im lặng xuất bảng thiếu thông tin."
+    </div>
+  </div>
+
+
+  <!-- ══ EVIDENCE ════════════════════════════════════════════════ -->
+  <div class="sec">
+    <span class="sec-badge">E</span>
+    <h2>Bằng Chứng Thực Tế (Evidence)</h2>
+    <div class="sec-line"></div>
+  </div>
+
+  <div class="sub-label">Ảnh Chụp Màn Hình Từ Trợ Thủ AI Moni – MoMo</div>
+  <div class="evidence-grid">
+
+    <div class="evidence-card">
+      <div class="evidence-img-wrap">
+        <img src="z7895695376249_35be073c16bfdb67dca895a87b2f037c.jpg"
+             alt="AI Moni trả về danh sách 5 giao dịch và bảng đối soát">
+        <span class="evidence-badge normal">Bước 1</span>
+      </div>
+      <div class="evidence-body">
+        <div class="evidence-title">AI Moni Xuất Danh Sách Giao Dịch Tháng 05/2026</div>
+        <div class="evidence-desc">
+          AI trả về 5 giao dịch (300k, 1.279k, 1.161k, 619k, 200k) kèm bảng chi tiết.
+          Moni hỏi <em>"Bạn muốn xem tiếp các giao dịch còn lại không?"</em> — hệ thống nhận biết còn dữ liệu chưa hiển thị.
+        </div>
+        <div class="evidence-note ok-note">
+          Tổng hiển thị: <strong>3.560.148đ</strong> — chỉ ghi nhận 5 giao dịch lớn nhìn thấy được.
+        </div>
+      </div>
+    </div>
+
+    <div class="evidence-card">
+      <div class="evidence-img-wrap">
+        <img src="z7895696184948_fd776d1b4f57cece4a0d22eb44e904e8.jpg"
+             alt="Bảng đầy đủ các giao dịch từ AI Moni">
+        <span class="evidence-badge normal">Bước 2</span>
+      </div>
+      <div class="evidence-body">
+        <div class="evidence-title">Bảng Đối Soát Đầy Đủ – Vẫn Thiếu Khoản 97k</div>
+        <div class="evidence-desc">
+          Bảng chi tiết liệt kê 5 giao dịch: Nhà cửa, Hóa đơn (×2), Giải trí, Chưa phân loại.
+          Thuật toán phân loại hoạt động đúng nhưng <strong>vẫn không xuất hiện giao dịch 97.000đ</strong> bị miss.
+        </div>
+        <div class="evidence-note">
+          Lỗ hổng: Dữ liệu bị <strong>cắt ngầm</strong> trước khi AI xử lý — AI không biết và không cảnh báo.
+        </div>
+      </div>
+    </div>
+
+    <div class="evidence-card">
+      <div class="evidence-img-wrap">
+        <img src="z7895696622846_594dcebb5efb786e11fabe517f60a72b.jpg"
+             alt="Giao dịch 97.000đ bị bỏ sót trong lịch sử MoMo">
+        <span class="evidence-badge alert">Bằng Chứng</span>
+      </div>
+      <div class="evidence-body">
+        <div class="evidence-title">Giao Dịch Bị Miss: -97.000đ (CTCP FUNTEK VIỆT NAM)</div>
+        <div class="evidence-desc">
+          Lịch sử giao dịch MoMo gốc ghi nhận rõ khoản <strong>-97.000đ</strong> —
+          "Thanh toán Mua mã thẻ nạp Game" lúc 21:32, ngày 04/05/2026.
+          Khoản này <strong>hoàn toàn vắng mặt</strong> trong báo cáo của AI Moni.
+        </div>
+        <div class="evidence-note">
+          Đây là <strong>bằng chứng trực tiếp</strong> xác nhận lỗ hổng miss dữ liệu ~97.218đ.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ══ FOOTER ══════════════════════════════════════════════════ -->
+  <div class="footer">
+    <div class="footer-brand">
+      <div class="footer-dot"></div>
+      <span>Block 3 · UX Workshop – Mổ App AI Thật</span>
+    </div>
+    <span>Day 05 · Slide 32 / 53</span>
+  </div>
+
+</body>
+</html>
