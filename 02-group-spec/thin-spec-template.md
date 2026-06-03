@@ -69,22 +69,25 @@ Chọn một:
 | Failure | AI gợi ý Nội tổng quát nhưng user biết mình cần Thần kinh → prototype hiển thị nút "Nhập lại triệu chứng" và "Chọn chuyên khoa khác" → user có thể override thủ công, flow không bị kẹt |
 | Correction | User nhập "đau bụng" → AI gợi ý Tiêu hóa → user bổ sung "kèm sốt 38.5°C" → AI re-triage với đủ thông tin → gợi ý chuyên khoa có thể thay đổi (Nội tổng quát hoặc cảnh báo red-flag nếu sốt cao bất thường) |
 
-## 7. Failure mode nguy hiểm nhất
+## 7. Failure mode nguy hiểm nhất (Phạm Mạnh Thắng - 2A202600921)
 
 ```text
-Nếu user [trigger],
-AI có thể [failure],
-hậu quả là [impact].
-Prototype sẽ xử lý bằng [ask again / show source / human review / undo / fallback].
-Owner kiểm thử path này là [tên thành viên].
+Nếu user nhập triệu chứng red-flag (ví dụ: "đau ngực, khó thở, tay trái tê"),
+AI có thể vừa cảnh báo "đến cấp cứu ngay" vừa offer đặt lịch Tim mạch thường
+trong cùng một response — y hệt lỗi đã chứng minh trên BookingCare AI (Screenshot 3),
+hậu quả là user bỏ qua dấu hiệu cấp cứu, chọn đặt lịch thường thay vì đến cấp cứu ngay
+→ nguy hiểm tính mạng trực tiếp.
+Prototype sẽ xử lý bằng: block hoàn toàn nút đặt lịch khi classify = red-flag,
+chỉ hiển thị cảnh báo + số hotline cấp cứu, không có lựa chọn nào khác trong response.
+Owner kiểm thử path này là Phạm Mạnh Thắng - 2A202600921.
 ```
 
 ## 8. Owner plan cho sáng Day 06
 
 | Thành viên | Việc phụ trách | Bằng chứng cần có trong repo |
 |---|---|---|
-|  | Research / evidence |  |
-|  | SPEC |  |
-|  | Prototype |  |
-|  | Test / failure path |  |
-|  | Demo script / repo |  |
+| Vũ Duy Bảo — 2A202600565 | Research & evidence: self-test BookingCare AI (3 case), competitor analysis (August AI, Symptomate, Ada Health), social evidence (VOZ, App Store, Fanpage) | `02-group-spec/evidence-pack-template.md` + `asset/Screenshot_1-3.png` |
+| Phạm Mạnh Thắng — 2A202600921 | Evidence Vinmec (2 case) + synthesis mục 3–7 (opportunity, build slice checklist, quyết định scope, câu chốt cuối, backlog) | `02-group-spec/asset/vinmec1.png`, `vinmec2.png` + `synthesis-decide-toolkit.md` |
+| Vũ Quang Bảo — 2A202600610 | SPEC mục 4–6 (build slice, auto/aug decision, four paths) + prototype Day 06 | `02-group-spec/thin-spec-template.md` mục 4-5-6 |
+| Phạm Mạnh Thắng — 2A202600921 | Test / failure path: kiểm thử red-flag path (block đặt lịch) + correction path (nhập lại triệu chứng) | Video/screenshot demo failure path trong repo |
+| Vũ Quang Bảo — 2A202600610 | Demo script & repo: chuẩn bị flow demo 4 path, đảm bảo chạy được trong 3–5 phút | `README` hoặc `demo-script.md` trong repo |
