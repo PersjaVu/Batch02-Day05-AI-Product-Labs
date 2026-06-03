@@ -65,23 +65,37 @@ Build slice tốt phải qua 5 câu hỏi:
 | Rủi ro cao | Chọn augmentation hoặc conditional automation. |
 | Không demo được trong 1 ngày | Đưa phần lớn vào backlog, giữ một path nhỏ. |
 
+**Nhóm chọn: Giữ scope hiện tại.**
+
+Lý do:
+- Evidence đủ mạnh: 3 self-test thực trên BookingCare AI (Screenshot 1–3) + 2 test Vinmec + App Store/Play review + VOZ forum.
+- User cụ thể, task demo được trong 3–5 phút với 4 path rõ ràng.
+- AI có vai trò cụ thể: classify triệu chứng ra 3 mức và tự động route action.
+- Scope đã cắt sẵn: chỉ fix 2 gap (low-confidence + red-flag), không làm lại happy path vì BookingCare đã xử lý tốt.
+
 ## 6. Câu chốt cuối
 
-Điền câu này trước khi rời lớp:
-
 ```text
-Dựa trên [evidence],
-nhóm sẽ build [prototype slice],
-cho [user],
-để giải quyết [pain],
-bằng cách AI [augment/automate task],
-và sẽ test failure path [failure mode].
+Dựa trên 3 self-test thực trên BookingCare AI (Screenshot 1–3) và 2 test Vinmec
+cho thấy AI hiện tại dump thông tin không dẫn đến quyết định và mâu thuẫn logic
+nguy hiểm khi gặp triệu chứng cấp cứu,
+nhóm sẽ build prototype triage chatbot với 4 path (Happy / Low-confidence / Red-flag / Correction),
+cho người dùng lần đầu nhập triệu chứng chưa biết cần khám khoa nào,
+để giải quyết pain: bị dump 7 nhóm nguyên nhân không ra quyết định được,
+hoặc nhận cảnh báo cấp cứu nhưng vẫn bị offer đặt lịch thường trong cùng 1 response,
+bằng cách AI tự động classify triệu chứng ra 3 mức (clear / low-confidence / red-flag)
+rồi route đúng action: gợi ý khoa + offer đặt lịch / hỏi thêm 1 câu / block đặt lịch + cảnh báo cấp cứu,
+và sẽ test failure path: AI gợi sai khoa → user override và nhập lại;
+AI nhận triệu chứng red-flag → xác nhận KHÔNG offer đặt lịch thường.
 ```
 
 ## 7. Backlog
 
 Những thứ **không build trong Day 06**:
 
-- 
-- 
-- 
+- **On-to-Off sync**: đồng bộ lịch hẹn giữa app và bệnh viện thực — cần tích hợp hệ thống bệnh viện, ngoài tầm 1 ngày.
+- **Digital Trust / xác nhận lịch chính thức**: cơ chế xác nhận từ cơ sở y tế — cần đối tác thật, không mock được.
+- **Booking flow end-to-end**: chọn slot → thanh toán → xác nhận — nằm ngoài scope triage; dùng mock UI cho demo.
+- **Happy path AI**: BookingCare đã làm tốt khi triệu chứng rõ.
+- **Multi-turn conversation history**: lưu lịch sử hội thoại giữa các phiên — ngoài scope Day 06.
+- **Database bác sĩ / slot thực**: kết nối API bệnh viện thật — dùng mock data cho demo là đủ.
