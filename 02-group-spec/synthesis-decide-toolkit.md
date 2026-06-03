@@ -29,25 +29,31 @@ vì [evidence thực tế cho thấy chatbot hiện tại bị mâu thuẫn logi
 
 ## 3. Viết opportunity
 
-Form:
-
 ```text
-Cơ hội là dùng AI để [augment/automate hành động hẹp],
-giúp user [kết quả],
-trong khi vẫn kiểm soát [failure/risk].
+Cơ hội là dùng AI để phân tầng nguy cơ triệu chứng (triage) theo 3 mức —
+red flag / low-confidence / clear — rồi route user đúng hành động:
+  • red flag   → block đặt lịch thường + cảnh báo đến cơ sở y tế/cấp cứu ngay
+  • low-conf   → hỏi thêm 1–2 câu để thu hẹp chuyên khoa (thay vì dump thông tin)
+  • clear      → gợi ý chuyên khoa cụ thể + offer đặt lịch
+
+Giúp user ra được quyết định y tế rõ ràng trong 1 lần nhập triệu chứng,
+không bị hoang mang và không gặp mâu thuẫn logic nguy hiểm như hiện tại,
+
+trong khi vẫn kiểm soát nguy cơ AI bỏ sót red flag hoặc gợi sai chuyên khoa
+bằng disclaimer bắt buộc và fallback "gặp bác sĩ để xác nhận" ở mọi output.
 ```
 
 ## 4. Chọn build slice
 
 Build slice tốt phải qua 5 câu hỏi:
 
-| Câu hỏi | Đạt khi |
-|---|---|
-| User cụ thể chưa? | Nói được ai dùng, trong bối cảnh nào. |
-| Task đủ hẹp chưa? | Demo được trong 3-5 phút. |
-| AI decision rõ chưa? | AI gợi ý/tự làm một việc cụ thể. |
-| Failure path rõ chưa? | Có một case AI không chắc hoặc sai để test. |
-| Có evidence không? | Có bằng chứng từ self-use/review/user/competitor. |
+| Câu hỏi | Đạt khi | Nhóm |
+|---|---|---|
+| User cụ thể chưa? | Nói được ai dùng, trong bối cảnh nào. | ✅ Người dùng lần đầu nhập triệu chứng vào chatbot trước khi đặt lịch online — chưa biết cần khám khoa nào hoặc đang có dấu hiệu khẩn cấp chưa nhận ra. |
+| Task đủ hẹp chưa? | Demo được trong 3-5 phút. | ✅ Demo 2 path: (1) nhập "đau ngực, khó thở, tay trái tê" → AI block + cảnh báo cấp cứu, không hiện nút đặt lịch; (2) nhập "hay mệt mỏi, đôi khi đau đầu" → AI hỏi thêm 1 câu → gợi ý 1 chuyên khoa. |
+| AI decision rõ chưa? | AI gợi ý/tự làm một việc cụ thể. | ✅ AI classify triệu chứng ra 1 trong 3 bucket (red_flag / low_confidence / clear) và tự động chọn action tương ứng — không để user tự suy. |
+| Failure path rõ chưa? | Có một case AI không chắc hoặc sai để test. | ✅ Case test: nhập "thỉnh thoảng đau ngực nhẹ" — AI có thể phân loại nhầm mức độ; kiểm tra guardrail có kích hoạt không và disclaimer có hiện đủ không. |
+| Có evidence không? | Có bằng chứng từ self-use/review/user/competitor. | ✅ 3 case self-test BookingCare AI (Screenshot 1–3) + 2 case Vinmec + App Store/Play review + VOZ forum + BookingCare Fanpage review. |
 
 ## 5. Quyết định: giữ, giảm scope, hay đổi hướng?
 
