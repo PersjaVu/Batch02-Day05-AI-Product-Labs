@@ -50,7 +50,7 @@ Build slice tốt phải qua 5 câu hỏi:
 | Câu hỏi | Đạt khi | Nhóm |
 |---|---|---|
 | User cụ thể chưa? | Nói được ai dùng, trong bối cảnh nào. | ✅ Người dùng lần đầu nhập triệu chứng vào chatbot trước khi đặt lịch online — chưa biết cần khám khoa nào hoặc đang có dấu hiệu khẩn cấp chưa nhận ra. |
-| Task đủ hẹp chưa? | Demo được trong 3-5 phút. | ✅ Demo 2 path: (1) nhập "đau ngực, khó thở, tay trái tê" → AI block + cảnh báo cấp cứu, không hiện nút đặt lịch; (2) nhập "hay mệt mỏi, đôi khi đau đầu" → AI hỏi thêm 1 câu → gợi ý 1 chuyên khoa. |
+| Task đủ hẹp chưa? | Demo được trong 3-5 phút. | ✅ Demo 3 path: (1) **Happy** — nhập "đau mắt đỏ, chảy nước mắt 2 ngày" → AI gợi ý Chuyên khoa Mắt → hiện slot đặt lịch → user đặt được; (2) **Low-conf** — nhập "hay mệt mỏi, đôi khi đau đầu" → AI hỏi thêm 1 câu → thu hẹp còn 1 chuyên khoa → offer đặt lịch; (3) **Red flag** — nhập "đau ngực, khó thở, tay trái tê" → AI block đặt lịch + chỉ hiện cảnh báo cấp cứu. |
 | AI decision rõ chưa? | AI gợi ý/tự làm một việc cụ thể. | ✅ AI classify triệu chứng ra 1 trong 3 bucket (red_flag / low_confidence / clear) và tự động chọn action tương ứng — không để user tự suy. |
 | Failure path rõ chưa? | Có một case AI không chắc hoặc sai để test. | ✅ Case test: nhập "thỉnh thoảng đau ngực nhẹ" — AI có thể phân loại nhầm mức độ; kiểm tra guardrail có kích hoạt không và disclaimer có hiện đủ không. |
 | Có evidence không? | Có bằng chứng từ self-use/review/user/competitor. | ✅ 3 case self-test BookingCare AI (Screenshot 1–3) + 2 case Vinmec + App Store/Play review + VOZ forum + BookingCare Fanpage review. |
